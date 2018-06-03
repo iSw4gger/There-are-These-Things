@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--There are These Things-->
+        <!--These Things-->
         <scene sceneID="iY8-Z4-uAC">
             <objects>
                 <tableViewController id="knk-7X-12s" customClass="ToDoListViewController" customModule="There_are_These_Things" customModuleProvider="target" sceneMemberID="viewController">
@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="knk-7X-12s" id="5cG-8J-RLS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="There are These Things" id="Sh1-cU-F6W"/>
+                    <navigationItem key="navigationItem" title="These Things" id="Sh1-cU-F6W">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SsN-Rn-VH7">
+                            <color key="tintColor" red="0.9861351612" green="1" blue="0.9896013709" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="knk-7X-12s" id="8DD-S1-uVT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vMh-Kf-dfZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,12 +50,17 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aWm-hP-kIm" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UvY-JC-B8N">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="UvY-JC-B8N">
+                        <rect key="frame" x="0.0" y="20" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" red="0.94260849420000004" green="0.95586135790000004" blue="0.94592171010000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
