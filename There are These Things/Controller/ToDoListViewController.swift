@@ -12,12 +12,14 @@ class ToDoListViewController: UITableViewController {
 //since this class inherits table view controller, we don't have to do all the methods required when setting up a table view(delegate, data source, etc.). This comes behind the scenes.
     
     var itemArray = [Item]()
-
-    let defaults = UserDefaults.standard
     
+    //grabbing a file path to where the data will be stored. Using .first
+    
+    //you can create different plists that store data in a different plist. Example, work to do list, home to do list, etc. Reduces loading time.
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         let newItem = Item()
         newItem.title = "Find Mike"
@@ -27,15 +29,7 @@ class ToDoListViewController: UITableViewController {
         newItem2.title = "Test"
         itemArray.append(newItem2)
         
-        
-        for n in itemArray{
-            print(n.title)
-        }
-        
-        //grabbing the user defaults and sticking them in the array.
-//        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
-//            itemArray = items
-//        }
+        loadItems()
         
     }
 
@@ -62,13 +56,9 @@ class ToDoListViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
     
+        saveItems()
         
         //grabbing a reference to the cell that is selected
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
         
         //deselects the row so it doesn't stay gray.
         tableView.deselectRow(at: indexPath, animated: true)
@@ -90,14 +80,9 @@ class ToDoListViewController: UITableViewController {
             newItem.title = addThing.text!
             
             self.itemArray.append(newItem)
-            self.tableView.reloadData()
             
-            //stored in a p list file
-            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
-            
-            print("Success!")
+            self.saveItems()
         }
-        
         //add a text field
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Add a thing..."
@@ -106,12 +91,39 @@ class ToDoListViewController: UITableViewController {
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        
     }
-            
+    
+    func saveItems(){
+        
+        let encoder = PropertyListEncoder()
+        
+        do{
+            let data = try encoder.encode(itemArray)
+            //writing data to the URL path above.
+            try data.write(to: dataFilePath!)
+        }catch{
+            print("error encoding")
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    //loads data that loads the contents of the URL (from the FilePath above)
+    func loadItems() {
+        //encoding saves it, decoding reads it
+        //try reading it using decode
+        if let data = try? Data(contentsOf: dataFilePath!){
+            let decoder = PropertyListDecoder()
+            do{
+                //if able to read it, add to this array using the decode from the dataFilePath
+                itemArray = try decoder.decode([Item].self, from: data)
+            }catch{
+                print("Error decoding item array \(error)")
+            }
+        }
+    }
 }
         
         
 
-    
 
